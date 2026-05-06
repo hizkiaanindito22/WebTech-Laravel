@@ -1,0 +1,247 @@
+/* ==========================================================================
+   VARIABEL CSS UTAMA (Mendukung Dark Mode)
+   ========================================================================== */
+:root {
+    /* Skema Light Mode (Default) */
+    --primary: #4f77ff; 
+    --bg-body: #ffffff;
+    --bg-card: #ffffff;
+    --bg-light-section: #f8f9fa; 
+    --text-main: #333333;     
+    --text-muted: #6c757d; 
+    --border-color: #dee2e6;
+}
+
+html[data-theme="dark"] {
+    --bg-body: #121212;
+    --bg-card: #1e1e1e;
+    --bg-light-section: #1a1a1a; 
+    --text-main: #f8f9fa;
+    --text-muted: #adb5bd;
+    --border-color: #333333;
+}
+
+/* ==========================================================================
+   PENERAPAN VARIABEL KE ELEMEN DASAR
+   ========================================================================== */
+html, body { 
+    max-width: 100%; 
+    overflow-x: hidden !important; 
+    margin: 0; 
+    padding: 0; 
+    background-color: var(--bg-body) !important;
+    color: var(--text-main) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+section { scroll-margin-top: 50px; }
+
+.card, .navbar, .chart-container-group, .bg-white, form {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+    border-color: var(--border-color) !important;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.bg-light { 
+    background-color: var(--bg-light-section) !important; 
+    transition: background-color 0.3s ease;
+}
+
+.text-dark { color: var(--text-main) !important; }
+.text-secondary, .text-muted { color: var(--text-muted) !important; }
+
+/* Header / Sticky Nav */
+.header { position: sticky; top: 0; z-index: 120; }
+
+.navbar-nav .nav-link {
+    padding: 1rem 1rem !important; 
+    position: relative; 
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease, font-size 0.3s ease; 
+    border-radius: 0.5rem; 
+    display: inline-block; 
+}
+
+.navbar-nav .nav-link.active {
+    color: #ffffff !important; 
+    background-color: var(--primary) !important; 
+    font-size: 1.1rem;                                 
+    font-weight: bold !important;              
+    padding-top: 1.1rem !important;
+    padding-bottom: 1.1rem !important;
+}
+
+.navbar-nav .nav-link.active::after { content: none; }
+
+/* =========================================
+   EFEK DROPDOWN MENU OTOMATIS (DESKTOP)
+   ========================================= */
+@media (min-width: 992px) {
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0;
+    }
+}
+
+/* =========================================
+   EFEK CARD LAYANAN (FADE & HIGHLIGHT)
+   ========================================= */
+.service-container:hover .service-card {
+    opacity: 0.4 !important;
+    filter: blur(4px) !important;
+    transform: scale(0.95) !important;
+}
+
+.service-card {
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    position: relative;
+    z-index: 1;
+}
+
+.service-container .service-card:hover {
+    opacity: 1 !important;
+    filter: blur(0) !important;
+    transform: scale(1.05) translateY(-10px) !important;
+    z-index: 5 !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+}
+
+/* =========================================
+   ANIMASI TIMELINE SEJARAH
+   ========================================= */
+.timeline-box {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s ease-out !important;
+}
+
+.timeline-box.show-timeline {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* -------------------------------------------------------------------------------------- */
+/* --- GAYA KUSTOM MINIMAL UNTUK MENDUKUNG LAYOUT --- */
+/* -------------------------------------------------------------------------------------- */
+
+.hero { position: relative; height: 95vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+.carousel, .carousel-inner, .carousel-item { width: 100%; height: 100%; }
+.hero-image { width: 100%; height: 100%; object-fit: cover; }
+.hero-overlay { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: rgba(51, 51, 51, 0.4); z-index: 1; }
+.hero-caption-content { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 800px; z-index: 2; padding: 0 15px; }
+
+.video-local-container { position: relative; background-color: #000; cursor: pointer; height: 100%; overflow: hidden; }
+#mainVideo { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); display: flex; justify-content: center; align-items: center; opacity: 1; transition: opacity 0.5s; z-index: 10; }
+.video-overlay.hidden, .video-overlay.autoplay-active { opacity: 0; pointer-events: none; }
+.play-button-local { font-size: 4rem; color: rgba(255, 255, 255, 0.9); transition: all 0.2s ease-in-out; text-shadow: 0 0 15px rgba(0, 0, 0, 0.8); }
+
+#services, #contact { position: relative; overflow: hidden; }
+#services { padding-top: 3rem !important; padding-bottom: 0.5rem !important; background-image: url('../img/ai_cctv.gif'); background-size: cover; background-position: center center; background-attachment: fixed; }
+#contact { padding-top: 3rem !important; padding-bottom: 2rem !important; background-image: url('../img/R.gif'); background-size: cover; background-position: center center; background-attachment: fixed; color: #ffffff; }
+
+.services-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.75); z-index: 0; }
+html[data-theme="dark"] .services-overlay { background-color: rgba(18, 18, 18, 0.85); }
+.contact-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 0; }
+#services > .container-md, #contact > .container-md { position: relative; z-index: 1; }
+
+.card-hover-shadow { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.card-hover-shadow:hover { transform: translateY(-5px); box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important; }
+
+.timeline-navigation-wrapper { position: relative; display: flex; align-items: center; width: 100%; }
+.timeline-container { display: flex; overflow-x: auto; padding: 20px 0; gap: 15px; width: 100%; scroll-behavior: auto !important; scrollbar-width: none; }
+.timeline-container::-webkit-scrollbar { display: none; }
+.timeline-item { flex: 0 0 240px; text-align: center; }
+.scroll-sensor { position: absolute; top: 0; bottom: 0; width: 100px; z-index: 10; cursor: pointer; }
+.left-sensor { left: 0; background: linear-gradient(to right, var(--bg-light-section) 0%, transparent 100%); }
+.right-sensor { right: 0; background: linear-gradient(to left, var(--bg-light-section) 0%, transparent 100%); }
+.timeline-spacer { display: flex; align-items: center; flex-grow: 1; padding: 0 10px; }
+.timeline-spacer > hr { height: 2px; background-color: var(--text-secondary); margin: 0; width: 100%; }
+.timeline-dot { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); display: inline-block; width: 10px; height: 10px; border-radius: 50%; background-color: var(--primary); }
+
+.metrics-chart-wrapper { max-width: 900px; width: 100%; margin: auto; }
+.chart-container-group { border: 1px solid var(--border-color); padding: 1rem !important; }
+.chart-wrapper { position: relative; padding: 10px; }
+canvas { max-width: 100% !important; }
+.chart-container-group .chart-wrapper h4 { margin-bottom: 0.5rem !important; font-size: 0.9rem !important; }
+
+.story-scroll-container { position: relative; min-height: 400px; margin-top: 3rem; overflow: hidden; }
+.story-wrapper { position: relative; min-height: 550px; width: 100%; }
+.scroll-slide { width: 100%; position: absolute; top: 0; left: 0; opacity: 0; visibility: hidden; transition: all 0.6s ease; }
+.scroll-slide.active { position: relative; opacity: 1; visibility: visible; z-index: 2; }
+.animate-in-left { opacity: 0.1 !important; transform: translateX(-100%); }
+.scroll-slide.active.animate-in-left { transform: translateX(0); opacity: 1 !important; }
+.animate-in-right { opacity: 0.1 !important; transform: translateX(100%); }
+.scroll-slide.active.animate-in-right { transform: translateX(0); opacity: 1 !important; }
+.animate-out { opacity: 0; visibility: hidden; }
+
+.slide-nav-btn { width: 60px !important; height: 60px !important; border-radius: 50% !important; display: flex !important; justify-content: center !important; align-items: center !important; font-size: 1.2rem; transition: all 0.2s ease; border-width: 2px !important; }
+.slide-nav-btn:hover:not(:disabled) { transform: scale(1.1); }
+.slide-nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.slide-nav-btn i { margin: 0 !important; }
+
+/* =========================================
+   MEDIA QUERIES (KHUSUS MOBILE)
+   ========================================= */
+@media (max-width: 767.98px) {
+    .timeline-container { overflow-x: auto; }
+    .metrics-chart-wrapper { max-width: none; }
+    .chart-container-group { padding: 0.75rem !important; }
+    .chart-container-group .chart-wrapper { height: 180px; }
+    .chart-container-group .chart-wrapper h4 { font-size: 0.8rem !important; }
+}
+
+/* =========================================
+   INFINITE LOGO SLIDER (RUNNING TEXT KLIEN)
+   ========================================= */
+.logo-slider-container {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    padding: 2.5rem 0;
+    width: 100%;
+    background-color: var(--bg-card);
+}
+
+/* Memastikan track ukurannya 2x lipat dan bergeser -50% */
+.logo-slider-track {
+    display: inline-block;
+    width: max-content;
+    animation: marquee 20s linear infinite;
+}
+
+.logo-slider-container:hover .logo-slider-track {
+    animation-play-state: paused; /* Berhenti saat disorot mouse */
+}
+
+.logo-item {
+    display: inline-block;
+    margin: 0 40px;
+    vertical-align: middle;
+    transition: all 0.3s ease;
+    /* Membuat logo berwarna menjadi abu-abu polos (1 warna) */
+    filter: grayscale(100%) opacity(0.6) contrast(150%); 
+}
+
+/* Dark mode: membuat logo menjadi putih */
+html[data-theme="dark"] .logo-item {
+    filter: grayscale(100%) invert(1) opacity(0.7); 
+}
+
+.logo-item:hover {
+    filter: none; /* Kembali berwarna saat disorot */
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.logo-item img {
+    height: 50px; /* Ukuran seragam untuk logo */
+    width: auto;
+    object-fit: contain;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } 
+}
