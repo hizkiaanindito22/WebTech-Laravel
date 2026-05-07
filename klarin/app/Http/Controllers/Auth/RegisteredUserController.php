@@ -29,41 +29,48 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        $request->validate([
+        // 1. Siapkan rules dasar
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'role' => ['required', 'in:dosen,mahasiswa'],
-            'nomor_induk' => [
-                'required', 'string', 'unique:users',
-                function ($attribute, $value, $fail) use ($request) {
-                    if ($request->role === 'dosen' && strlen($value) !== 4) {
-                        $fail('NIP Dosen harus 4 digit.');
-                    }
-                    if ($request->role === 'mahasiswa' && strlen($value) !== 8) {
-                        $fail('NIM Mahasiswa harus 8 digit.');
-                    }
-                }
-            ],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'nomor_induk' => ['required', 'string', 'unique:users'],
+            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
             'foto' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
-        ]);
+        ];
 
+        // 2. Jika dia mendaftar sebagai Dosen, Wajibkan Kode Unik!
+        if ($request->role === 'dosen') {
+            $request->validate(array_merge($rules, [
+                'kode_dosen' => ['required', function ($attribute, $value, $fail) {
+                    // KODE RAHASIANYA ADALAH: KLARIN-ATMI-2026
+                    if ($value !== 'KLARIN-ATMI-2026') {
+                        $fail('Kode Unik Instruktur tidak valid! Hubungi Admin.');
+                    }
+                }],
+            ]));
+        } else {
+            $request->validate($rules);
+        }
+
+        // 3. Simpan File Foto (jika ada)
         $fotoPath = null;
         if ($request->hasFile('foto')) {
             $fotoPath = $request->file('foto')->store('profile_photos', 'public');
         }
 
-        $user = User::create([
+        // 4. Buat User Baru
+        $user = \App\Models\User::create([
             'name' => $request->name,
             'role' => $request->role,
             'nomor_induk' => $request->nomor_induk,
             'foto' => $fotoPath,
-            'password' => Hash::make($request->password),
+            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
-        Auth::login($user);
+        event(new \Illuminate\Auth\Events\Registered($user));
+        \Illuminate\Support\Facades\Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
     }

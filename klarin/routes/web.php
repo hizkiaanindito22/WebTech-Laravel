@@ -5,6 +5,7 @@ use App\Http\Controllers\OvertimeController;
 use App\Models\Overtime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomResetController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -59,6 +60,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/overtimes/{id}/progress', [OvertimeController::class, 'progress'])->name('overtimes.progress'); // Mhs: Buka Halaman Progress
     Route::post('/overtimes/{id}/progress', [OvertimeController::class, 'updateProgress'])->name('overtimes.updateProgress'); // Mhs: Simpan Checklist
     Route::post('/overtimes/{id}/finish', [OvertimeController::class, 'finish'])->name('overtimes.finish'); // Mhs: Konfirmasi Selesai
+});
+
+// Rute Lupa Password Custom (NIP/NIM + Captcha)
+Route::middleware('guest')->group(function () {
+    Route::get('/lupa-password', [CustomResetController::class, 'requestForm'])->name('password.request');
+    Route::post('/lupa-password', [CustomResetController::class, 'processRequest'])->name('password.email');
+    
+    Route::get('/reset-password-baru', [CustomResetController::class, 'resetForm'])->name('password.reset.custom');
+    Route::post('/reset-password-baru', [CustomResetController::class, 'updatePassword'])->name('password.store.custom');
 });
 
 require __DIR__.'/auth.php';
